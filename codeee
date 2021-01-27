@@ -1,0 +1,43 @@
+import RPi.GPIO as GPIO
+from time import sleep
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11, GPIO.OUT)
+pwm=GPIO.PWM(11, 45)
+pwm.start(0)
+time.sleep(2)
+duty = 2
+cal_Angle = 1
+
+
+while duty <= 12:
+    pwm.ChangeDutyCycle(duty)
+    time.sleep(3)
+    duty = duty + 1  
+   
+
+
+
+def SetAngle(angle):
+
+    duty = angle / 18 + 2
+
+    GPIO.output(11, True)
+   
+    pwm.ChangeDutyCycle(duty)
+   
+    sleep(1)
+   
+    GPIO.output(11, False)
+
+    pwm.ChangeDutyCycle(0)
+   
+    cal_Angle += angle
+   
+ 
+ 
+   
+SetAngle(90)
+print ("Servo Angle is",cal_Angle)
+pwm.stop()
+GPIO.cleanup()
